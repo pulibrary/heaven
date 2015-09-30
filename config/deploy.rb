@@ -50,3 +50,18 @@ namespace :deploy do
   end
 
 end
+namespace :resque do
+  task :quiet do
+    on roles(:app) do
+      # Horrible hack to get PID without having to use terrible PID files
+      puts capture("kill -USR1 $(sudo initctl status appdeploy-workers | grep /running | awk '{print $NF}') || :")
+    end
+  end
+  task :restart do
+    on roles(:app) do
+      execute :sudo, :initctl, :restart, "appdeploy-workers"
+    end
+  end
+end
+after 'deploy:reverted', 'resque:restart'
+after 'deploy:published', 'resque:restart'

@@ -17,6 +17,8 @@ gem "dpl",        "1.5.7"
 gem "aws-sdk"
 gem "capistrano"
 gem 'capistrano-rails', '~> 1.1'
+gem 'capistrano-passenger'
+gem 'capistrano-rails-console'
 
 # Notifiers
 gem "hipchat"

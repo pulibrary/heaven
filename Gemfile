@@ -25,8 +25,10 @@ gem "campfiyah"
 gem "slack-notifier"
 gem "flowdock"
 
+# Database
+gem "sqlite3", "1.3.10"
+
 group :test do
-  gem "sqlite3", "1.3.10"
   gem "webmock"
   gem "simplecov", "0.7.1"
   gem "rubocop"

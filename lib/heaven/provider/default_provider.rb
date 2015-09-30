@@ -37,7 +37,7 @@ module Heaven
       end
 
       def gem_executable_path(name)
-        executable_path = "/app/vendor/bundle/bin/#{name}"
+        executable_path = Rails.root.join("/app/vendor/bundle/bin/#{name}")
         if File.exist?(executable_path)
           executable_path
         else

@@ -37,7 +37,7 @@ module Heaven
       end
 
       def gem_executable_path(name)
-        executable_path = Rails.root.join("bin/cap")
+        executable_path = Rails.root.join("bin/cap").to_s
         if File.exist?(executable_path)
           executable_path
         else

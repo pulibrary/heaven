@@ -15,7 +15,7 @@ gem "faraday_middleware"
 # Providers
 gem "dpl",        "1.5.7"
 gem "aws-sdk"
-gem "capistrano", "2.9.0"
+gem "capistrano"
 
 # Notifiers
 gem "hipchat"

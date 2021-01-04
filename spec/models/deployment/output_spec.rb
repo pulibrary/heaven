@@ -2,6 +2,15 @@ require "spec_helper"
 
 describe Deployment::Output do
   let(:gist) { Octokit::Gist.new("deadbeef") }
+  let(:client) { instance_double(Octokit::Client) }
+
+  before do
+    allow(client).to receive(:update).and_return(gist)
+    allow(client).to receive(:edit_gist)
+    allow(client).to receive(:create_gist).and_return(gist)
+    allow(client).to receive(:create).and_return(gist)
+    allow(Octokit::Client).to receive(:new).and_return(client)
+  end
 
   it "creates a gist for storing output" do
     params = {
@@ -12,7 +21,7 @@ describe Deployment::Output do
 
     stub_request(:post, "https://api.github.com/gists")
       .with(:body => params.to_json)
-      .to_return(:status => 200, :body => gist, :headers => {})
+      .to_return(:status => 200, :body => gist.to_json, :headers => { "Content-Type" => "application/json" })
 
     output = Deployment::Output.new("heaven", 42, SecureRandom.uuid)
     expect { output.create }.to_not raise_error
@@ -27,7 +36,7 @@ describe Deployment::Output do
 
     stub_request(:patch, "https://api.github.com/gists/#{gist.id}")
       .with(:body => params.to_json)
-      .to_return(:status => 200, :body => "", :headers => {})
+      .to_return(:status => 200, :body => gist.to_json, :headers => { "Content-Type" => "application/json" })
 
     output.stderr = "chasing dreams"
     output.stdout = "push to limit"

@@ -25,6 +25,9 @@ describe ApiClient do
       stub_request(:get, "https://api.github.com/meta?client_id=id&client_secret=secret")
         .with(:headers => octokit_request_headers)
         .to_return(:status => 200, :body => "ok")
+      stub_request(:get, "https://api.github.com/meta")
+        .with(:headers => octokit_request_headers)
+        .to_return(:status => 200, :body => "ok")
 
       expect(tester.oauth_client_api.meta).to eql("ok")
     end

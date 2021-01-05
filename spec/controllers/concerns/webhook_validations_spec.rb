@@ -3,7 +3,16 @@ require "spec_helper"
 describe WebhookValidations do
   include MetaHelper
 
-  before { stub_meta }
+  let(:client_response) { double }
+  let(:client) { instance_double(Octokit::Client) }
+
+  before do
+    stub_meta
+
+    allow(client_response).to receive(:hooks).and_return(["192.30.252.41", "192.30.252.46"])
+    allow(client).to receive(:get).and_return(client_response)
+    allow(Octokit::Client).to receive(:new).and_return(client)
+  end
 
   class WebhookValidationsTester
     class Request

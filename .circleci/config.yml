@@ -1,0 +1,58 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.6.6-stretch-node
+    executor: ruby/default
+
+    steps:
+      - checkout
+
+      - run:
+          name: Upgrade bundler
+          command: gem install bundler -v '~> 2.2'
+
+      - run:
+          name: Display the Bundler version
+          command: bundle -v
+
+      - ruby/bundle-install
+
+  test:
+    docker:
+      - image: circleci/ruby:2.6.6-stretch-node
+      - image: circleci/redis:6.0-alpine3.12
+
+    executor: ruby/default
+
+    steps:
+      - checkout
+
+      - run:
+          name: Upgrade bundler
+          command: gem install bundler -v '~> 2.2'
+
+      - run:
+          name: Display the Bundler version
+          command: bundle -v
+
+      - ruby/bundle-install
+
+      - run:
+          name: Run the Rails migration
+          command: bundle exec rails db:migrate RAILS_ENV=test
+
+      - run:
+          name: Run the test suites
+          command: bundle exec rspec spec/
+
+workflows:
+  version: 2.1
+
+  ci:
+    jobs:
+      - build
+      - test

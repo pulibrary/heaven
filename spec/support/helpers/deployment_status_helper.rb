@@ -30,7 +30,7 @@ module DeploymentStatusHelper
 
   def stub_deploy_statuses
     deployment_results = {
-      :body => StubDeployment.new("atmos/my-robot", 721),
+      :body => "atmos/my-robot",
       :status => 200,
       :headers => {}
     }
@@ -44,15 +44,15 @@ module DeploymentStatusHelper
 
     stub_request(:post, deployment_url("/statuses"))
       .with(:body => extra_params.merge("state" => "pending").to_json)
-      .to_return(:status => 201, :body => {}, :headers => {})
+      .to_return(:status => 201, :body => "{}", :headers => {})
 
     stub_request(:post, deployment_url("/statuses"))
       .with(:body => extra_params.merge("state" => "failure").to_json)
-      .to_return(:status => 201, :body => {}, :headers => {})
+      .to_return(:status => 201, :body => "{}", :headers => {})
 
     stub_request(:post, deployment_url("/statuses"))
       .with(:body => extra_params.merge("state" => "success").to_json)
-      .to_return(:status => 201, :body => {}, :headers => {})
+      .to_return(:status => 201, :body => "{}", :headers => {})
   end
 
   ::RSpec.configure do |config|

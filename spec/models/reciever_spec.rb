@@ -45,9 +45,10 @@ describe Receiver do
     end
 
     it "is false if the repository is inactive" do
-      Repository.create(:name => "my-robot", :owner => "atmos", :active => false)
+      Repository.create(:name => "inactive-robot", :owner => "atmos", :active => false)
+      inactive_receiver = Receiver.new("deployment", "1", { repository: { name: "inactive-robot", owner: { login: "atmos" } } }.with_indifferent_access)
 
-      expect(receiver).to_not be_active_repository
+      expect(inactive_receiver).to_not be_active_repository
     end
 
     it "is false if a repository is missing from the payload" do

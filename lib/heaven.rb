@@ -1,3 +1,5 @@
+require 'pry-byebug'
+
 # The top-level Heaven module
 module Heaven
   REDIS_PREFIX = "heaven:#{Rails.env}"
@@ -10,6 +12,7 @@ module Heaven
     end
 
     def redis
+      # binding.pry
       @redis ||= if ENV["REDIS_PROVIDER"]
                    Redis.new(:url => ENV[ENV["REDIS_PROVIDER"]])
                  elsif ENV["REDISCLOUD_URL"]

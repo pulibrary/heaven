@@ -18,6 +18,7 @@ gem "capistrano", '~> 3.7'
 gem 'capistrano-rails', '~> 1.1'
 gem 'capistrano-passenger'
 gem 'capistrano-rails-console'
+gem 'capistrano-composer'
 gem 'whenever'
 
 # Notifiers
